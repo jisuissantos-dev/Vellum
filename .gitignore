@@ -38,6 +38,5 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### .env e idea ###
-.env
+### idea ###
 .idea/
