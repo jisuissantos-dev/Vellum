@@ -1,7 +1,11 @@
 package br.edu.poo.m0013.model;
 
-public class Leitor {
-    private int id;
+import br.edu.poo.m0013.exception.DadoInvalidoException;
+
+public class Leitor extends Entidade {
+
+    private static final long serialVersionUID = 1L;
+
     private String nome;
     private String email;
     private String cep;
@@ -18,21 +22,13 @@ public class Leitor {
         setEmail(email);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         if (nome == null || nome.isBlank()) {
-            throw new IllegalArgumentException("O nome não pode ficar vazio.");
+            throw new DadoInvalidoException("O nome não pode ficar vazio.");
         }
         this.nome = nome.trim();
     }
@@ -43,7 +39,7 @@ public class Leitor {
 
     public void setEmail(String email) {
         if (email == null || email.isBlank() || !email.contains("@")) {
-            throw new IllegalArgumentException("Email inválido.");
+            throw new DadoInvalidoException("Email inválido.");
         }
         this.email = email.trim();
     }
@@ -54,7 +50,7 @@ public class Leitor {
 
     public void setCep(String cep) {
         if (cep != null && cep.length() != 8) {
-            throw new IllegalArgumentException("O CEP deve ter 8 dígitos.");
+            throw new DadoInvalidoException("O CEP deve ter 8 dígitos.");
         }
         this.cep = cep;
     }
@@ -89,13 +85,22 @@ public class Leitor {
 
     public void setUf(String uf) {
         if (uf != null && uf.length() != 2) {
-            throw new IllegalArgumentException("A UF deve ter 2 letras.");
+            throw new DadoInvalidoException("A UF deve ter 2 letras.");
         }
         this.uf = uf;
     }
 
     @Override
-    public String toString() {
-        return id + " - " + nome + " (" + email + ")";
+    public String resumo() {
+        return getId() + " - " + nome + " (" + email + ")";
+    }
+
+    @Override
+    public String detalhes() {
+        if (cep == null) {
+            return "";
+        }
+        return "    CEP " + cep + " - " + logradouro + ", " + bairro
+                + " - " + cidade + "/" + uf;
     }
 }

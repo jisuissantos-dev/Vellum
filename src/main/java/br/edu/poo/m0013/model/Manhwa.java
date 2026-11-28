@@ -1,7 +1,11 @@
 package br.edu.poo.m0013.model;
 
-public class Manhwa {
-    private int id;
+import br.edu.poo.m0013.exception.DadoInvalidoException;
+
+public class Manhwa extends Entidade {
+
+    private static final long serialVersionUID = 1L;
+
     private String titulo;
     private String autor;
     private String genero;
@@ -22,21 +26,13 @@ public class Manhwa {
         setStatus(status);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getTitulo() {
         return titulo;
     }
 
     public void setTitulo(String titulo) {
         if (titulo == null || titulo.isBlank()) {
-            throw new IllegalArgumentException("O título não pode ficar vazio.");
+            throw new DadoInvalidoException("O título não pode ficar vazio.");
         }
         this.titulo = titulo.trim();
     }
@@ -47,7 +43,7 @@ public class Manhwa {
 
     public void setAutor(String autor) {
         if (autor == null || autor.isBlank()) {
-            throw new IllegalArgumentException("O autor não pode ficar vazio.");
+            throw new DadoInvalidoException("O autor não pode ficar vazio.");
         }
         this.autor = autor.trim();
     }
@@ -74,7 +70,7 @@ public class Manhwa {
 
     public void setQuantidadeCapitulos(int quantidadeCapitulos) {
         if (quantidadeCapitulos < 0) {
-            throw new IllegalArgumentException("A quantidade de capítulos não pode ser negativa.");
+            throw new DadoInvalidoException("A quantidade de capítulos não pode ser negativa.");
         }
         this.quantidadeCapitulos = quantidadeCapitulos;
     }
@@ -85,14 +81,29 @@ public class Manhwa {
 
     public void setStatus(StatusManhwa status) {
         if (status == null) {
-            throw new IllegalArgumentException("O status não pode ser nulo.");
+            throw new DadoInvalidoException("O status não pode ser nulo.");
         }
         this.status = status;
     }
 
     @Override
-    public String toString() {
-        return id + " - " + titulo + " (" + autor + ") - "
+    public String resumo() {
+        return getId() + " - " + titulo + " (" + autor + ") - "
                 + quantidadeCapitulos + " capítulos - " + status;
+    }
+
+    @Override
+    public String detalhes() {
+        String texto = "";
+        if (genero != null) {
+            texto = "    Gênero: " + genero;
+        }
+        if (sinopse != null) {
+            if (!texto.isEmpty()) {
+                texto = texto + System.lineSeparator();
+            }
+            texto = texto + "    Sinopse: " + sinopse;
+        }
+        return texto;
     }
 }
