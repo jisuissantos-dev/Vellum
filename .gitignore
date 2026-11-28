@@ -41,3 +41,6 @@ build/
 ### .env e idea ###
 .env
 .idea/
+
+### backup ###
+backup_manhwas.dat
