@@ -1,7 +1,7 @@
 package br.edu.poo.m0013.api;
 
+import br.edu.poo.m0013.util.Configuracao;
 import com.google.gson.Gson;
-import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,7 +16,7 @@ public class ViaCepClient {
             throw new IllegalArgumentException("O CEP deve ter 8 dígitos.");
         }
 
-        String urlBase = Dotenv.load().get("API_VIACEP_URL");
+        String urlBase = Configuracao.getInstancia().get("API_VIACEP_URL");
         HttpRequest requisicao = HttpRequest.newBuilder()
                 .uri(URI.create(urlBase + cep + "/json/"))
                 .GET()
